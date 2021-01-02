@@ -6,7 +6,7 @@
     "build": "tsc",
     "lint": "eslint"
   },
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "blueimp-md5": "^2.18.0"
   },
