@@ -1,9 +1,8 @@
 import md5 from 'blueimp-md5';
 // import PlayerProperty from './PlayerProperty';
-import Actions from '../effects/actions';
-import HealthProperty from './properties/HealthProperty';
-import AttackPowerProperty from './properties/AttackPowerProperty';
-import SpeedProperty from './properties/SpeedProperty';
+import {
+  HealthProperty, AttackPowerProperty, SpeedProperty, AttackbleProperty,
+} from './properties';
 import { Buff, Skill } from '../effects';
 
 /**
@@ -66,8 +65,6 @@ export default class Player {
 
   buffs: { [key in PlayerStatus]: Buff[]; };
 
-  actions: { [key in PlayerStatus]: Actions[]; };
-
   health: HealthProperty;
 
   /**
@@ -76,6 +73,8 @@ export default class Player {
    */
   speed: SpeedProperty;
 
+  attackable: AttackbleProperty;
+
   constructor(id: string) {
     const encryptedMd5Hex = md5(id); // Generates Player's ID.
     this.name = id;
@@ -83,8 +82,8 @@ export default class Player {
     const propertyNumber: number[] = [];
     for (let i = 0; i < 16; i += 1) {
       const piece = encryptedMd5Hex.slice(i * 2, (i + 1) * 2);
-      const convertedNumber = (parseInt(piece, 16) / 2.55);
-      propertyNumber.push(convertedNumber);
+      const convertedNumber = parseInt(piece, 16) / 2.55;
+      propertyNumber.push(Math.floor(convertedNumber));
     } // Slice the md5 hex into 2-length string pieces, in 16.
     // Sets health according 1st piece of property.
     this.health = new HealthProperty(propertyNumber[0], id);
@@ -103,7 +102,7 @@ export default class Player {
       [PlayerStatus.afterUnderAttack]: [],
     };
     this.buffs = Object.create(this.skillSlot);
-    this.actions = Object.create(this.skillSlot);
+    this.attackable = new AttackbleProperty(true, id);
   }
 }
 

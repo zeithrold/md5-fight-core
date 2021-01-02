@@ -25,5 +25,6 @@ module.exports = {
     'import/no-cycle': 0,
     'no-shadow': 0,
     'no-unused-vars': 0,
+    'class-methods-use-this': 0,
   },
 };

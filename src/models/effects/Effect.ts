@@ -1,3 +1,5 @@
+import { PlayerStatus } from '../player';
+
 export enum EffectType {
   skill,
   buff,
@@ -14,9 +16,16 @@ export default abstract class Effect {
 
   data?: any;
 
+  affectTiming: PlayerStatus;
+
+  /**
+   * The Skill's owner.
+   */
+  abstract playerId: string;
+
   constructor(data?: object) {
     if (data) this.data = data;
   }
 
-  abstract init ()
+  abstract init ();
 }

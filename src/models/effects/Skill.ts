@@ -7,15 +7,12 @@ export default abstract class Skill extends Effect {
   type = EffectType.skill;
 
   /**
-   * The Skill's owner.
-   */
-  playerId: string;
-
-  /**
    * The timing when skill affects, default sets to beforeAttack.
-   * *Remember that skill that is set its timing to `ready` will never affect.*
+   * Remember that skill that is set its timing to `ready` will never affect.
    */
   affectTiming: PlayerStatus = PlayerStatus.beforeAttack;
+
+  playerId: string;
 
   protected constructor(playerId: string, data?: any) {
     super(!data ? data : null);
@@ -23,7 +20,7 @@ export default abstract class Skill extends Effect {
   }
 
   init() {
-    brainField.registerSkill(this.playerId, this.affectTiming, this);
+    brainField.registerSkill(this.playerId, this);
   }
 
   abstract run();

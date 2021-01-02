@@ -1,5 +1,5 @@
 import Player, { PlayerStatus } from '../models/player/Player';
-import { Skill } from '../models/effects';
+import { Buff, Skill } from '../models/effects';
 
 /**
  * The API platform of the Effect.
@@ -7,8 +7,11 @@ import { Skill } from '../models/effects';
 export default class BrainField {
   players: { east: Player; west: Player; };
 
-  constructor(players: { east: Player; west: Player; }) {
+  env: 'test' | 'production' | 'dev'
+
+  constructor(players: { east: Player; west: Player; }, env: 'test' | 'production' | 'dev' = 'production') {
     this.players = players;
+    this.env = env;
   }
 
   getPlayer(playerId: string) {
@@ -20,8 +23,31 @@ export default class BrainField {
     throw new Error('Invalid playerId');
   }
 
-  registerSkill(playerId: string, statusTiming: PlayerStatus, skill: Skill) {
+  getOppositePlayer(playerId: string) {
+    if (!(playerId in Object.keys(this.players))) { // If playerId does NOT in player.keys
+      throw new Error('Invalid playerId');
+    }
+    // No error, means valid playerId.
+    if (this.players.west.name === playerId) {
+      return this.players.east;
+    }
+    return this.players.west;
+  }
+
+  registerSkill(playerId: string, skill: Skill) {
     const targetPlayer = this.getPlayer(playerId);
-    targetPlayer.skillSlot[statusTiming].push(skill);
+    targetPlayer.skillSlot[skill.affectTiming].push(skill);
+  }
+
+  registerBuff(playerId: string, buff: Buff) {
+    const targetPlayer = this.getPlayer(playerId);
+    targetPlayer.buffs[buff.affectTiming].push(buff);
+  }
+
+  generateRandom() {
+    if (this.env !== 'production') {
+      return 0;
+    }
+    return Math.floor(Math.random() * 100);
   }
 }

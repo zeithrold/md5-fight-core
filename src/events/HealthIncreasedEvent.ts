@@ -12,6 +12,10 @@ class HealthIncreasedEvent implements Event {
   constructor(increasedAmount: number) {
     this.data.increasedAmount = increasedAmount;
   }
+
+  message(player: string) {
+    return `${player}的生命值增加了${this.data.increasedAmount}!`;
+  }
 }
 
 export default HealthIncreasedEvent;
