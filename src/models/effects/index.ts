@@ -1,12 +1,12 @@
 import Effect, { EffectType } from './Effect';
 import Skill from './Skill';
 import Buff from './Buff';
-import Action from './Action';
+import Actions from './actions';
 
 export {
   Effect,
   EffectType,
   Skill,
   Buff,
-  Action,
+  Actions,
 };

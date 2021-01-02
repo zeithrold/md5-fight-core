@@ -23,5 +23,7 @@ module.exports = {
     'import/extensions': 0,
     'import/no-extraneous-dependencies': [2, { devDependencies: true }],
     'import/no-cycle': 0,
+    'no-shadow': 0,
+    'no-unused-vars': 0,
   },
 };

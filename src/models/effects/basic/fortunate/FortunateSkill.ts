@@ -1,4 +1,5 @@
 import Skill from '../../Skill';
+import { PlayerStatus } from '../../../player';
 
 export default class FortunateSkill extends Skill {
   id = 'fortunate-skill';
@@ -11,11 +12,13 @@ export default class FortunateSkill extends Skill {
     fortunate: number;
   };
 
+  affectTiming = PlayerStatus.beforeUnderAttack;
+
   constructor(playerId: string, fortunate: number) {
     super(playerId, { fortunate });
   }
 
-  init() {
+  run() {
 
   }
 }

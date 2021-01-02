@@ -1,4 +1,5 @@
-import Player from '../models/player/Player';
+import Player, { PlayerStatus } from '../models/player/Player';
+import { Skill } from '../models/effects';
 
 /**
  * The API platform of the Effect.
@@ -12,10 +13,15 @@ export default class BrainField {
 
   getPlayer(playerId: string) {
     if (this.players.west.name === playerId) {
-      return this.players.west.name;
+      return this.players.west;
     } if (this.players.east.name === playerId) {
-      return this.players.east.name;
+      return this.players.east;
     }
     throw new Error('Invalid playerId');
+  }
+
+  registerSkill(playerId: string, statusTiming: PlayerStatus, skill: Skill) {
+    const targetPlayer = this.getPlayer(playerId);
+    targetPlayer.skillSlot[statusTiming].push(skill);
   }
 }

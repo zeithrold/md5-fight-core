@@ -3,18 +3,20 @@ export enum EffectType {
   buff,
 }
 
-export default class Effect {
-  readonly type: EffectType;
+export default abstract class Effect {
+  abstract readonly type: EffectType;
 
-  id: string;
+  abstract id: string;
 
-  name: string;
+  abstract name: string;
 
-  description: string; // Written in markdown
+  abstract description: string; // Written in markdown
 
   data?: any;
 
   constructor(data?: object) {
     if (data) this.data = data;
   }
+
+  abstract init ()
 }

@@ -1,10 +1,10 @@
 import md5 from 'blueimp-md5';
-import PlayerProperty from './PlayerProperty';
-import Action from '../effects/Action';
+// import PlayerProperty from './PlayerProperty';
+import Actions from '../effects/actions';
 import HealthProperty from './properties/HealthProperty';
 import AttackPowerProperty from './properties/AttackPowerProperty';
 import SpeedProperty from './properties/SpeedProperty';
-import { Skill } from '../effects';
+import { Buff, Skill } from '../effects';
 
 /**
  * The Player's status, it will change automatically as the BattleField runs.
@@ -64,7 +64,9 @@ export default class Player {
 
   skillSlot: { [key in PlayerStatus]: Skill[]; };
 
-  actions: { [key in PlayerStatus]: Action[]; };
+  buffs: { [key in PlayerStatus]: Buff[]; };
+
+  actions: { [key in PlayerStatus]: Actions[]; };
 
   health: HealthProperty;
 
@@ -91,6 +93,17 @@ export default class Player {
     // Sets speed according 3rd piece of property.
     this.speed = new SpeedProperty(propertyNumber[2], id);
     this.status = PlayerStatus.ready;
+    this.skillSlot = {
+      [PlayerStatus.ready]: [],
+      [PlayerStatus.beforeAttack]: [],
+      [PlayerStatus.onAttack]: [],
+      [PlayerStatus.afterAttack]: [],
+      [PlayerStatus.beforeUnderAttack]: [],
+      [PlayerStatus.onUnderAttack]: [],
+      [PlayerStatus.afterUnderAttack]: [],
+    };
+    this.buffs = Object.create(this.skillSlot);
+    this.actions = Object.create(this.skillSlot);
   }
 }
 
