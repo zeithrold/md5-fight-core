@@ -14,7 +14,7 @@ export default abstract class Skill extends Effect {
 
   playerId: string;
 
-  protected constructor(playerId: string, data?: any) {
+  constructor(playerId: string, data?: any) {
     super(!data ? data : null);
     this.playerId = playerId;
   }

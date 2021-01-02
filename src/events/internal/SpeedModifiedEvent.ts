@@ -1,4 +1,4 @@
-import { Event } from './index';
+import { Event } from '../index';
 
 export default class SpeedModifiedEvent implements Event {
   id = 'speed-modified-event';

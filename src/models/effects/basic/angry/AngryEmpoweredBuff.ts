@@ -2,20 +2,20 @@ import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
 import { brainField } from '../../../../index';
 
-export default class AngryWeakenBuff extends Buff {
-  id = 'angry-weaken-buff';
+export default class AngryEmpoweredBuff extends Buff {
+  id = 'angry-empowered-buff';
 
-  name = '愤怒：减弱防御力';
+  name = '愤怒：加强攻击力';
 
-  description = '玩家的防御力减弱50%。';
+  description = '玩家的攻击力加强50%。';
 
   affectTimes = 1;
 
-  affectTiming = PlayerStatus.onUnderAttack;
+  affectTiming = PlayerStatus.onAttack;
 
   run() {
     const ownerPlayer = brainField.getPlayer(this.playerId);
-    ownerPlayer.attackPower.value *= 0.5;
+    ownerPlayer.attackPower.value *= 1.5;
   }
 
   destroy() {

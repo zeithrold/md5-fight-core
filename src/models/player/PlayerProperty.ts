@@ -4,7 +4,7 @@ export default class PlayerProperty<T> {
   /**
    * The actual value of player's property.
    */
-  private internalValue: T;
+  protected internalValue: T;
 
   /**
    * The default value of player's property, mostly defined by a part of md5-hex.

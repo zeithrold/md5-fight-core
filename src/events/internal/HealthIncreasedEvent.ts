@@ -1,4 +1,4 @@
-import Event from './Event';
+import Event from '../Event';
 
 class HealthIncreasedEvent implements Event {
   id = 'health-increased-event';

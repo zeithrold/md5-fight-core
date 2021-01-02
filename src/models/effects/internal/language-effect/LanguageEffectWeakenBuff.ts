@@ -2,16 +2,14 @@ import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
 import { brainField } from '../../../../index';
 
-export default class AngryWeakenBuff extends Buff {
-  id = 'angry-weaken-buff';
+export default class LanguageEffectWeakenBuff extends Buff {
+  id = 'language-effect-weaken-buff';
 
-  name = '愤怒：减弱防御力';
+  name = '语言感化:弱化';
 
-  description = '玩家的防御力减弱50%。';
+  description = '玩家本轮攻击力减弱50%。';
 
-  affectTimes = 1;
-
-  affectTiming = PlayerStatus.onUnderAttack;
+  affectTiming = PlayerStatus.beforeUnderAttack;
 
   run() {
     const ownerPlayer = brainField.getPlayer(this.playerId);

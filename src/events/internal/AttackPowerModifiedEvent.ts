@@ -1,4 +1,4 @@
-import { Event } from './index';
+import { Event } from '../index';
 
 export default class AttackPowerModifiedEvent implements Event {
   id = 'attack-power-modified-event';

@@ -1,9 +1,17 @@
 import md5 from 'blueimp-md5';
 // import PlayerProperty from './PlayerProperty';
 import {
-  HealthProperty, AttackPowerProperty, SpeedProperty, AttackbleProperty,
+  HealthProperty,
+  AttackPowerProperty,
+  SpeedProperty,
+  AttackbleProperty,
+  DefenceProperty,
+  StunnedProperty,
 } from './properties';
 import { Buff, Skill } from '../effects';
+import { FortunateSkill } from '../effects/basic/fortunate';
+import { DodgeSkill } from '../effects/basic/dodge';
+import { AngrySkill } from '../effects/basic/angry';
 
 /**
  * The Player's status, it will change automatically as the BattleField runs.
@@ -38,6 +46,11 @@ export const enum PlayerStatus {
    * The `afterUnderAttack` status means the `Player` has just been attacked.
    */
   afterUnderAttack,
+}
+
+export enum PlayerType {
+  physical,
+  magical
 }
 
 export default class Player {
@@ -75,6 +88,19 @@ export default class Player {
 
   attackable: AttackbleProperty;
 
+  stunned: StunnedProperty;
+
+  defence: {
+    [PlayerType.physical]: DefenceProperty,
+    [PlayerType.magical]: DefenceProperty,
+  };
+
+  basicSkills: {
+    fortunateSkill: Skill;
+    dodgeSkill: Skill;
+    angrySkill: Skill;
+  };
+
   constructor(id: string) {
     const encryptedMd5Hex = md5(id); // Generates Player's ID.
     this.name = id;
@@ -92,6 +118,7 @@ export default class Player {
     // Sets speed according 3rd piece of property.
     this.speed = new SpeedProperty(propertyNumber[2], id);
     this.status = PlayerStatus.ready;
+    // Effect's initial Setting.
     this.skillSlot = {
       [PlayerStatus.ready]: [],
       [PlayerStatus.beforeAttack]: [],
@@ -103,6 +130,27 @@ export default class Player {
     };
     this.buffs = Object.create(this.skillSlot);
     this.attackable = new AttackbleProperty(true, id);
+    // BEGIN BASIC EFFECT REGISTER
+    const fortunateSkill = new FortunateSkill(id, propertyNumber[3]);
+    this.skillSlot[fortunateSkill.affectTiming].push(fortunateSkill);
+    const dodgeSkill = new DodgeSkill(id);
+    this.skillSlot[dodgeSkill.affectTiming].push(dodgeSkill);
+    const angrySkill = new AngrySkill(id);
+    this.skillSlot[angrySkill.affectTiming].push(angrySkill);
+    this.basicSkills = {
+      fortunateSkill,
+      dodgeSkill,
+      angrySkill,
+    };
+    this.defence[PlayerType.physical] = new DefenceProperty(
+      { type: PlayerType.physical, defence: propertyNumber[4] },
+      id,
+    );
+    this.defence[PlayerType.magical] = new DefenceProperty(
+      { type: PlayerType.magical, defence: propertyNumber[5] },
+      id,
+    );
+    this.stunned = new StunnedProperty(false, id);
   }
 }
 
