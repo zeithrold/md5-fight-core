@@ -22,5 +22,6 @@ module.exports = {
   rules: {
     'import/extensions': 0,
     'import/no-extraneous-dependencies': [2, { devDependencies: true }],
+    'import/no-cycle': 0,
   },
 };

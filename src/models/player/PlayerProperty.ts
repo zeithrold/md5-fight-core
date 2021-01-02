@@ -1,3 +1,5 @@
+import Player from './Player';
+
 export default class PlayerProperty<T> {
   /**
    * The actual value of player's property.
@@ -9,9 +11,12 @@ export default class PlayerProperty<T> {
    */
   readonly defaultValue: T;
 
-  constructor(value: T, defaultValue: T) {
+  readonly playerId: string;
+
+  constructor(value: T, defaultValue: T, playerId: string) {
     this.internalValue = value;
     this.defaultValue = defaultValue;
+    this.playerId = playerId;
   }
 
   /**
