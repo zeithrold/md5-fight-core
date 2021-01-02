@@ -13,9 +13,9 @@ export default class PlayerProperty<T> {
 
   readonly playerId: string;
 
-  constructor(value: T, defaultValue: T, playerId: string) {
+  constructor(value: T, playerId: string, defaultValue?: T) {
     this.internalValue = value;
-    this.defaultValue = defaultValue;
+    this.defaultValue = !defaultValue ? defaultValue : value;
     this.playerId = playerId;
   }
 

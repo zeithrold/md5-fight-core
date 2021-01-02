@@ -3,6 +3,8 @@ import Event from './Event';
 import EventRegistry from './EventRegistry';
 import HealthDecreasedEvent from './HealthDecreasedEvent';
 import HealthIncreasedEvent from './HealthIncreasedEvent';
+import AttackPowerModifiedEvent from './AttackPowerModifiedEvent';
+import SpeedModifiedEvent from './SpeedModifiedEvent';
 
 export {
   DeathEvent,
@@ -10,4 +12,6 @@ export {
   EventRegistry,
   HealthIncreasedEvent,
   HealthDecreasedEvent,
+  AttackPowerModifiedEvent,
+  SpeedModifiedEvent,
 };
