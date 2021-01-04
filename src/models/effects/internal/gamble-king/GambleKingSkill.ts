@@ -14,9 +14,10 @@ export default class GambleKingSkill extends Skill {
     }
     if (this.battleField.generateRandom() < 50) {
       this.battleField.eventRegistry.registerEvent(new GambleKingSucceededEvent(), this.playerId);
+      const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
       this.battleField.registerBuff(
-        this.battleField.getOppositePlayer(this.playerId).name,
-        new GambleKingWeakenBuff(this.battleField),
+        oppositePlayer.name,
+        new GambleKingWeakenBuff(this.battleField, oppositePlayer.name),
       );
     } else {
       this.battleField.eventRegistry.registerEvent(new GambleKingFailedEvent(), this.playerId);

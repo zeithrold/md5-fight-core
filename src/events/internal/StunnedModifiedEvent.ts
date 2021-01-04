@@ -10,7 +10,7 @@ export default class StunnedModifiedEvent implements Event {
   };
 
   constructor(stunned: boolean) {
-    this.data.stunned = stunned;
+    this.data = { stunned };
   }
 
   message(player: string) {

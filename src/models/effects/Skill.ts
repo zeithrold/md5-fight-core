@@ -1,5 +1,6 @@
 import { Effect, EffectType } from './index';
 import { PlayerStatus } from '../player';
+import { BattleField } from '../../field';
 
 export default abstract class Skill extends Effect {
   // Sets the type of Effect to Skill.
@@ -13,8 +14,8 @@ export default abstract class Skill extends Effect {
 
   playerId: string;
 
-  constructor(playerId: string, data?: any) {
-    super(!data ? data : null);
+  constructor(battleField: BattleField, playerId: string, data?: any) {
+    super(battleField, playerId, data);
     this.playerId = playerId;
   }
 

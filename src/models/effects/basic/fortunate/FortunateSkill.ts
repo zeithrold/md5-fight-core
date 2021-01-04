@@ -2,6 +2,7 @@ import Skill from '../../Skill';
 import { PlayerStatus } from '../../../player';
 import FortunateActivatedEvent from './FortunateActivatedEvent';
 import FortunateWeakenBuff from './FortunateWeakenBuff';
+import { BattleField } from '../../../../field';
 
 export default class FortunateSkill extends Skill {
   id = 'fortunate-skill';
@@ -16,8 +17,8 @@ export default class FortunateSkill extends Skill {
 
   affectTiming = PlayerStatus.beforeUnderAttack;
 
-  constructor(playerId: string, fortunate: number) {
-    super(playerId, { fortunate });
+  constructor(battleField: BattleField, playerId: string, fortunate: number) {
+    super(battleField, playerId, { fortunate });
   }
 
   run() {
@@ -32,7 +33,7 @@ export default class FortunateSkill extends Skill {
       // Register a FortunateWeakenBuff on the opposite Player.
       this.battleField.registerBuff(
         oppositePlayer.name,
-        new FortunateWeakenBuff(this.data.fortunate, this.battleField),
+        new FortunateWeakenBuff(this.battleField, oppositePlayer.name, this.data.fortunate),
       );
     }
   }

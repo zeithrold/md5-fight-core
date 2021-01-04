@@ -27,6 +27,8 @@ export default class ThunderMagicSkill extends Skill {
           .buffs[PlayerStatus.beforeAttack].slice(0, isOppositePlayerHaveBuff)
           .concat(oppositePlayer.buffs[PlayerStatus.beforeAttack].slice(isOppositePlayerHaveBuff));
     }
-    this.battleField.registerBuff(this.playerId, new ThunderMagicBuff(this.battleField));
+    this.battleField.registerBuff(
+      this.playerId, new ThunderMagicBuff(this.battleField, this.playerId),
+    );
   }
 }

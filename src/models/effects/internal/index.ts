@@ -5,6 +5,7 @@ import { LanguageEffectSkill } from './language-effect';
 import { ShadowKnifeSkill } from './shadow-knife';
 import { ThunderMagicSkill } from './thunder-magic';
 import { WitchSkill } from './witch';
+import { BattleField } from '../../../field';
 
 export const internalSkills = [
   BloodMagicSkill,
@@ -16,7 +17,7 @@ export const internalSkills = [
   WitchSkill,
 ];
 
-export function getSkill(skillProperty: number, playerId: string) {
+export function getSkill(battleField: BattleField, skillProperty: number, playerId: string) {
   const skillId = skillProperty % internalSkills.length;
-  return new internalSkills[skillId](playerId);
+  return new internalSkills[skillId](battleField, playerId);
 }

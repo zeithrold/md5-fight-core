@@ -20,14 +20,14 @@ export default class BloodMagicSkill extends Skill {
       return;
     }
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    if (ownerPlayer.health.value > ownerPlayer.health.defaultValue * 0.1) {
+    if (ownerPlayer.health.internalValue > ownerPlayer.health.defaultValue * 0.1) {
       return;
     }
     this.battleField.eventRegistry.registerEvent(new BloodMagicAffectedEvent(), this.playerId);
     const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
     const averageHP = (
-      ownerPlayer.health.value
-        + oppositePlayer.health.value
+      ownerPlayer.health.internalValue
+        + oppositePlayer.health.internalValue
     ) / 2;
     ownerPlayer.health.value = averageHP;
     oppositePlayer.health.value = averageHP;

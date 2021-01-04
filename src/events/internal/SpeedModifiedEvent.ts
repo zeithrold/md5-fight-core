@@ -10,7 +10,7 @@ export default class SpeedModifiedEvent implements Event {
   }
 
   constructor(speed: number) {
-    this.data.speed = speed;
+    this.data = { speed };
   }
 
   message(player :string) {

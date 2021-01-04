@@ -9,7 +9,7 @@ interface Defence {
 
 export default class DefenceProperty extends PlayerProperty<Defence> {
   set value(value: Defence) {
-    if (value.type !== this.value.type) {
+    if (value.type !== this.internalValue.type) {
       throw new Error('Defence \'s type cannot be change.');
     }
     this.battleField.eventRegistry.registerEvent(

@@ -14,7 +14,7 @@ export default class DodgeSkill extends Skill {
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
     const random = this.battleField.generateRandom();
-    if (random < (ownerPlayer.speed.value / 2)) {
+    if (random < (ownerPlayer.speed.internalValue / 2)) {
       this.battleField.eventRegistry.registerEvent(new DodgeSucceededEvent(), this.playerId);
     }
   }

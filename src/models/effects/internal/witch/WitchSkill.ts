@@ -25,6 +25,8 @@ export default class WitchSkill extends Skill {
           .buffs[PlayerStatus.beforeAttack].slice(0, isOppositePlayerHaveBuff)
           .concat(oppositePlayer.buffs[PlayerStatus.beforeAttack].slice(isOppositePlayerHaveBuff));
     }
-    this.battleField.registerBuff(this.playerId, new WitchPoisonBuff(this.battleField));
+    this.battleField.registerBuff(
+      this.playerId, new WitchPoisonBuff(this.battleField, this.playerId),
+    );
   }
 }

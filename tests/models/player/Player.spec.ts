@@ -19,6 +19,7 @@ describe('Player.ts test', () => {
     const testPlayer = battleField.players.east;
     testPlayer.buffs.get(PlayerStatus.afterUnderAttack).add(new TestBuff(
       battleField,
+      testPlayer.name,
     ));
     expect(testPlayer.buffs.get(PlayerStatus.afterUnderAttack).size).toBe(1);
     // console.log(testPlayer.buffs);

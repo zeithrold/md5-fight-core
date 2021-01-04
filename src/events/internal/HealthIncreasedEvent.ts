@@ -10,7 +10,7 @@ class HealthIncreasedEvent implements Event {
   };
 
   constructor(increasedAmount: number) {
-    this.data.increasedAmount = increasedAmount;
+    this.data = { increasedAmount };
   }
 
   message(player: string) {

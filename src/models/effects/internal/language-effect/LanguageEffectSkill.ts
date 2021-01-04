@@ -17,12 +17,12 @@ export default class LanguageEffectSkill extends Skill {
     if (random < 40) {
       this.battleField.registerBuff(
         oppositePlayer.name,
-        new LanguageEffectStunnedBuff(this.battleField),
+        new LanguageEffectStunnedBuff(this.battleField, oppositePlayer.name),
       );
     } else {
       this.battleField.registerBuff(
         oppositePlayer.name,
-        new LanguageEffectWeakenBuff(this.battleField),
+        new LanguageEffectWeakenBuff(this.battleField, oppositePlayer.name),
       );
     }
   }

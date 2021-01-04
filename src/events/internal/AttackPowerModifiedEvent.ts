@@ -9,8 +9,8 @@ export default class AttackPowerModifiedEvent implements Event {
     attackPower: number
   }
 
-  constructor(attackPower) {
-    this.data.attackPower = attackPower;
+  constructor(attackPower: number) {
+    this.data = { attackPower };
   }
 
   message(player: string) {

@@ -22,12 +22,13 @@ export default abstract class Effect {
   /**
    * The Skill's owner.
    */
-  abstract playerId: string;
+  playerId: string;
 
   readonly battleField: BattleField;
 
-  constructor(battleField: BattleField, data?: object) {
+  constructor(battleField: BattleField, playerId: string, data?: object) {
     this.battleField = battleField;
+    this.playerId = playerId;
     if (data) this.data = data;
   }
 }

@@ -152,6 +152,7 @@ export default class Player {
   readonly battleField: BattleField;
 
   constructor(id: string, battleField: BattleField) {
+    this.battleField = battleField;
     const encryptedMd5Hex = md5(id); // Generates Player's ID.
     this.name = id;
     this.md5 = encryptedMd5Hex; // Set the player's id and md5 hex.
@@ -177,15 +178,15 @@ export default class Player {
     }
     this.attackable = new AttackbleProperty(true, id, this.battleField);
     // BEGIN EFFECT REGISTER
-    const fortunateSkill = new FortunateSkill(id, propertyNumber[3]);
+    const fortunateSkill = new FortunateSkill(this.battleField, id, propertyNumber[3]);
     this.skillSlot
       .get(fortunateSkill.affectTiming)
       .add(fortunateSkill);
-    const dodgeSkill = new DodgeSkill(id);
+    const dodgeSkill = new DodgeSkill(this.battleField, id);
     this.skillSlot
       .get(dodgeSkill.affectTiming)
       .add(dodgeSkill);
-    const angrySkill = new AngrySkill(id);
+    const angrySkill = new AngrySkill(this.battleField, id);
     this.skillSlot
       .get(angrySkill.affectTiming)
       .add(angrySkill);
@@ -194,7 +195,7 @@ export default class Player {
       dodgeSkill,
       angrySkill,
     };
-    const additionalSkill: Skill = getSkill(propertyNumber[4], this.name);
+    const additionalSkill: Skill = getSkill(this.battleField, propertyNumber[4], this.name);
     this.additionalSkill = additionalSkill;
     this.skillSlot.get(additionalSkill.affectTiming).add(additionalSkill);
     // END EFFECT REGISTER
@@ -211,7 +212,6 @@ export default class Player {
     };
     this.stunned = new StunnedProperty(false, id, this.battleField);
     this.type = propertyNumber[6] % 2 === 0 ? PlayerType.physical : PlayerType.magical;
-    this.battleField = battleField;
   }
 
   changeStatus(status: PlayerStatus) {

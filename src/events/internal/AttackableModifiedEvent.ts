@@ -10,7 +10,7 @@ export default class AttackableModifiedEvent implements Event {
   };
 
   constructor(attackable: boolean) {
-    this.data.attackable = attackable;
+    this.data = { attackable };
   }
 
   message(player: string) {

@@ -17,14 +17,15 @@ export default class FortunateWeakenBuff extends Buff {
     fortunate: number
   }
 
-  constructor(fortunate: number, battleField: BattleField) {
-    super(battleField, { fortunate });
+  constructor(battleField: BattleField, playerId: string, fortunate: number) {
+    super(battleField, playerId, { fortunate });
   }
 
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
     // eslint-disable-next-line operator-assignment
-    ownerPlayer.attackPower.value = ownerPlayer.attackPower.value * (this.data.fortunate / 100);
+    ownerPlayer.attackPower.value = ownerPlayer.attackPower.internalValue
+      * (this.data.fortunate / 100);
   }
 
   destroy() {

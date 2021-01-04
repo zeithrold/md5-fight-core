@@ -12,8 +12,10 @@ export default class DefenceModifiedEvent implements Event {
   }
 
   constructor(type: PlayerType, defence: number) {
-    this.data.type = type;
-    this.data.defence = defence;
+    this.data = {
+      type,
+      defence,
+    };
   }
 
   message(player: string) {

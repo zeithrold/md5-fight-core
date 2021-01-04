@@ -19,21 +19,21 @@ export default class HealthProperty extends PlayerProperty<number> {
       super.value = 0;
       this.battleField.eventRegistry.registerEvent(new DeathEvent(), this.playerId);
       return;
-    } if (value > this.value) {
+    } if (value > this.internalValue) {
       if (value > this.defaultValue) {
         this.setDefault();
         return;
       }
       this.battleField.eventRegistry.registerEvent(
-        new HealthIncreasedEvent(value - this.value), this.playerId,
+        new HealthIncreasedEvent(value - this.internalValue), this.playerId,
       );
-    } else if (value < this.value) {
-      const decreasedAmount = this.value - value;
+    } else if (value < this.internalValue) {
+      const decreasedAmount = this.internalValue - value;
       const increasedAngryRate = decreasedAmount * 1.5;
-      const ownerPlayer = this.battleField.brainField.getPlayer(this.playerId);
+      const ownerPlayer = this.battleField.getPlayer(this.playerId);
       ownerPlayer.basicSkills.angrySkill.data.angryRate += increasedAngryRate;
       this.battleField.eventRegistry.registerEvent(
-        new HealthDecreasedEvent(this.value - value), this.playerId,
+        new HealthDecreasedEvent(this.internalValue - value), this.playerId,
       );
     }
     super.value = value;

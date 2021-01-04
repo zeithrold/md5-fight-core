@@ -4,7 +4,7 @@ export default class PlayerProperty<T> {
   /**
    * The actual value of player's property.
    */
-  protected internalValue: T;
+  internalValue: T;
 
   /**
    * The default value of player's property, mostly defined by a part of md5-hex.
@@ -13,11 +13,11 @@ export default class PlayerProperty<T> {
 
   readonly playerId: string;
 
-  readonly battleField;
+  readonly battleField: BattleField;
 
   constructor(value: T, playerId: string, battleField: BattleField, defaultValue?: T) {
     this.internalValue = value;
-    this.defaultValue = !defaultValue ? defaultValue : value;
+    if (defaultValue) this.defaultValue = defaultValue; else this.defaultValue = value;
     this.playerId = playerId;
     this.battleField = battleField;
   }
@@ -37,7 +37,7 @@ export default class PlayerProperty<T> {
     this.internalValue = value;
   }
 
-  get value() {
+  get value(): T {
     return this.internalValue;
   }
 }

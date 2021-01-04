@@ -13,7 +13,11 @@ export default class ShadowKnifeSkill extends Skill {
       return;
     }
     this.battleField.eventRegistry.registerEvent(new ShadowKnifeAffectedEvent(), this.playerId);
-    this.battleField.registerBuff(this.playerId, new ShadowKnifeWeakenBuff(this.battleField));
-    this.battleField.registerBuff(this.playerId, new ShadowKnifeCannotDodgeBuff(this.battleField));
+    this.battleField.registerBuff(
+      this.playerId, new ShadowKnifeWeakenBuff(this.battleField, this.playerId),
+    );
+    this.battleField.registerBuff(
+      this.playerId, new ShadowKnifeCannotDodgeBuff(this.battleField, this.playerId),
+    );
   }
 }

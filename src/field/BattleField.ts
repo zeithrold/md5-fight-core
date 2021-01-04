@@ -70,13 +70,13 @@ export default class BattleField {
   }
 
   orderBattle() {
-    if (this.players.east.speed > this.players.west.speed) {
+    if (this.players.east.speed.internalValue > this.players.west.speed.internalValue) {
       this.eventRegistry.registerEvent(new FightOrderEvent(), this.players.east.name);
       this.fasterSide = 'east';
-    } if (this.players.east.speed < this.players.west.speed) {
+    } if (this.players.east.speed.internalValue < this.players.west.speed.internalValue) {
       this.eventRegistry.registerEvent(new FightOrderEvent(), this.players.west.name);
       this.fasterSide = 'west';
-    } else {
+    } else if (this.players.east.speed.internalValue === this.players.west.speed.internalValue) {
       const randomNumber = this.generateRandom();
       if (randomNumber % 2 === 0) {
         this.eventRegistry.registerEvent(new RandomOrderEvent(), this.players.east.name);
@@ -102,7 +102,7 @@ export default class BattleField {
     attackerPlayer.changeStatus(PlayerStatus.beforeAttack);
     if (this.checkDeath()) return true; // Death Check.
     // Check if attacker is stunned.
-    if (attackerPlayer.stunned.value === true) {
+    if (attackerPlayer.stunned.internalValue === true) {
       attackerPlayer.cleanUp();
       return false;
     }
@@ -114,14 +114,14 @@ export default class BattleField {
     underAttackPlayer.changeStatus(PlayerStatus.onUnderAttack);
     if (this.checkDeath()) return true; // Death Check.
     // Check if under-attack player is unattackable.
-    if (attackerPlayer.attackable.value === false) {
+    if (attackerPlayer.attackable.internalValue === false) {
       attackerPlayer.cleanUp();
       underAttackPlayer.cleanUp();
       return false;
     }
     // Calculate attack amount.
-    let attackAmount = attackerPlayer.attackPower.value
-      - underAttackPlayer.defence[attackerPlayer.type].value.defence * 0.5;
+    let attackAmount = attackerPlayer.attackPower.internalValue
+      - underAttackPlayer.defence[attackerPlayer.type].internalValue.defence * 0.5;
     attackAmount = attackAmount < 0 ? 0 : attackAmount;
     this.eventRegistry.registerEvent(new AttackEvent(attackAmount), attackerPlayer.name);
     // Low attack amount let angry go more serious.
@@ -146,7 +146,7 @@ export default class BattleField {
   }
 
   checkDeath() {
-    return this.players.west.health.value === 0
-      || this.players.east.health.value === 0;
+    return this.players.west.health.internalValue === 0
+      || this.players.east.health.internalValue === 0;
   }
 }
