@@ -4,7 +4,6 @@ import { PlayerStatus } from '../../../src/models/player';
 
 describe('Player.ts test', () => {
   it('should cleanUp() work correctly', () => {
-    // ERROR FOUND: Player's additional Skill cannot on.
     class TestBuff extends Buff {
       id = 'test-buff';
 

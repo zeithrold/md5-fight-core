@@ -1,4 +1,4 @@
-import { BattleField } from '../../src';
+import { BattleField } from '../src';
 
 describe('BattleField.ts test', () => {
   it('should BattleField initialize correctly', () => {
