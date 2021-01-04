@@ -1,5 +1,4 @@
 import md5 from 'blueimp-md5';
-// import PlayerProperty from './PlayerProperty';
 import {
   HealthProperty,
   AttackPowerProperty,
@@ -9,9 +8,11 @@ import {
   StunnedProperty,
 } from './properties';
 import { Buff, Skill } from '../effects';
+import { getSkill } from '../effects/internal';
 import { FortunateSkill } from '../effects/basic/fortunate';
 import { DodgeSkill } from '../effects/basic/dodge';
 import { AngrySkill } from '../effects/basic/angry';
+import { BattleField } from '../../field';
 
 /**
  * The Player's status, it will change automatically as the BattleField runs.
@@ -53,6 +54,16 @@ export enum PlayerType {
   magical
 }
 
+const PlayerStatusList: PlayerStatus[] = [
+  PlayerStatus.onUnderAttack,
+  PlayerStatus.afterUnderAttack,
+  PlayerStatus.beforeAttack,
+  PlayerStatus.afterAttack,
+  PlayerStatus.beforeUnderAttack,
+  PlayerStatus.ready,
+  PlayerStatus.onAttack,
+];
+
 export default class Player {
   /**
    * The name of the `Player`.
@@ -63,6 +74,7 @@ export default class Player {
   /**
    * The md5 of the name, in hex.
    * It will be used to generate `Player`'s properties like hp, defence, etc.
+   * @generatedFromMD5 This Prop is auto-generated from the md5-hex of the name.
    */
   readonly md5: string;
 
@@ -72,36 +84,74 @@ export default class Player {
    */
   readonly attackPower: AttackPowerProperty;
 
+  /**
+   * The Player's status, each change of the status make buffs registered in advance on effect.
+   * @generatedFromMD5 This Prop is auto-generated from the md5-hex of the name.
+   */
   status: PlayerStatus;
 
-  skillSlot: { [key in PlayerStatus]: Skill[]; };
+  /**
+   * skillSlot contains a set of skills registered in advance of Player's init.
+   */
+  readonly skillSlot: Map<PlayerStatus, Set<Skill>>;
 
-  buffs: { [key in PlayerStatus]: Buff[]; };
+  /**
+   * buffs contains a set of buffs,
+   * each change of the status make buffs registered in advance on effect.
+   */
+  readonly buffs: Map<PlayerStatus, Set<Buff>>;
 
-  health: HealthProperty;
+  /**
+   * The health property. When Player's health turn to 0, the Player would die.
+   * @generatedFromMD5 This Prop is auto-generated from the md5-hex of the name.
+   */
+  readonly health: HealthProperty;
 
   /**
    * The speed of the player. The chance of dodge depends on the speed.
    * @generatedFromMD5 This Prop is auto-generated from the md5-hex of the name.
    */
-  speed: SpeedProperty;
+  readonly speed: SpeedProperty;
 
-  attackable: AttackbleProperty;
+  /**
+   * The status on whether the Player can be attacked.
+   */
+  readonly attackable: AttackbleProperty;
 
-  stunned: StunnedProperty;
+  /**
+   * The ability of PLayer to execute an attack.
+   */
+  readonly stunned: StunnedProperty;
 
-  defence: {
+  /**
+   * The defence of PLayer, when under attack,
+   * the amount of attack discount with half of the defence.
+   * @generatedFromMD5 This Prop is auto-generated from the md5-hex of the name.
+   */
+  readonly defence: {
     [PlayerType.physical]: DefenceProperty,
     [PlayerType.magical]: DefenceProperty,
   };
 
+  /**
+   * The type of the Player, either physical or magical.
+   */
+  readonly type: PlayerType;
+
+  additionalSkill: Skill
+
+  /**
+   * The basic skills that every Player has.
+   */
   basicSkills: {
-    fortunateSkill: Skill;
-    dodgeSkill: Skill;
-    angrySkill: Skill;
+    fortunateSkill: FortunateSkill;
+    dodgeSkill: DodgeSkill;
+    angrySkill: AngrySkill;
   };
 
-  constructor(id: string) {
+  readonly battleField: BattleField;
+
+  constructor(id: string, battleField: BattleField) {
     const encryptedMd5Hex = md5(id); // Generates Player's ID.
     this.name = id;
     this.md5 = encryptedMd5Hex; // Set the player's id and md5 hex.
@@ -112,48 +162,81 @@ export default class Player {
       propertyNumber.push(Math.floor(convertedNumber));
     } // Slice the md5 hex into 2-length string pieces, in 16.
     // Sets health according 1st piece of property.
-    this.health = new HealthProperty(propertyNumber[0], id);
+    this.health = new HealthProperty(propertyNumber[0], id, this.battleField);
     // Sets attack power according 2nd piece of property.
-    this.attackPower = new AttackPowerProperty(propertyNumber[1], id);
+    this.attackPower = new AttackPowerProperty(propertyNumber[1], id, this.battleField);
     // Sets speed according 3rd piece of property.
-    this.speed = new SpeedProperty(propertyNumber[2], id);
+    this.speed = new SpeedProperty(propertyNumber[2], id, this.battleField);
     this.status = PlayerStatus.ready;
     // Effect's initial Setting.
-    this.skillSlot = {
-      [PlayerStatus.ready]: [],
-      [PlayerStatus.beforeAttack]: [],
-      [PlayerStatus.onAttack]: [],
-      [PlayerStatus.afterAttack]: [],
-      [PlayerStatus.beforeUnderAttack]: [],
-      [PlayerStatus.onUnderAttack]: [],
-      [PlayerStatus.afterUnderAttack]: [],
-    };
-    this.buffs = Object.create(this.skillSlot);
-    this.attackable = new AttackbleProperty(true, id);
-    // BEGIN BASIC EFFECT REGISTER
+    this.skillSlot = new Map<PlayerStatus, Set<Skill>>();
+    this.buffs = new Map<PlayerStatus, Set<Buff>>();
+    for (const status of PlayerStatusList) {
+      this.skillSlot.set(status, new Set<Skill>());
+      this.buffs.set(status, new Set<Buff>());
+    }
+    this.attackable = new AttackbleProperty(true, id, this.battleField);
+    // BEGIN EFFECT REGISTER
     const fortunateSkill = new FortunateSkill(id, propertyNumber[3]);
-    this.skillSlot[fortunateSkill.affectTiming].push(fortunateSkill);
+    this.skillSlot
+      .get(fortunateSkill.affectTiming)
+      .add(fortunateSkill);
     const dodgeSkill = new DodgeSkill(id);
-    this.skillSlot[dodgeSkill.affectTiming].push(dodgeSkill);
+    this.skillSlot
+      .get(dodgeSkill.affectTiming)
+      .add(dodgeSkill);
     const angrySkill = new AngrySkill(id);
-    this.skillSlot[angrySkill.affectTiming].push(angrySkill);
+    this.skillSlot
+      .get(angrySkill.affectTiming)
+      .add(angrySkill);
     this.basicSkills = {
       fortunateSkill,
       dodgeSkill,
       angrySkill,
     };
-    this.defence[PlayerType.physical] = new DefenceProperty(
-      { type: PlayerType.physical, defence: propertyNumber[4] },
-      id,
-    );
-    this.defence[PlayerType.magical] = new DefenceProperty(
-      { type: PlayerType.magical, defence: propertyNumber[5] },
-      id,
-    );
-    this.stunned = new StunnedProperty(false, id);
-  }
-}
+    const additionalSkill: Skill = getSkill(propertyNumber[4], this.name);
+    this.additionalSkill = additionalSkill;
+    this.skillSlot.get(additionalSkill.affectTiming).add(additionalSkill);
+    // END EFFECT REGISTER
 
-export function newPlayer(id: string) {
-  return new Proxy(new Player(id), {});
+    this.defence = {
+      [PlayerType.physical]: new DefenceProperty(
+        { type: PlayerType.physical, defence: propertyNumber[4] },
+        id, this.battleField,
+      ),
+      [PlayerType.magical]: new DefenceProperty(
+        { type: PlayerType.magical, defence: propertyNumber[5] },
+        id, this.battleField,
+      ),
+    };
+    this.stunned = new StunnedProperty(false, id, this.battleField);
+    this.type = propertyNumber[6] % 2 === 0 ? PlayerType.physical : PlayerType.magical;
+    this.battleField = battleField;
+  }
+
+  changeStatus(status: PlayerStatus) {
+    this.status = status;
+    this.buffs.get(status).forEach(this.buffAffect);
+    this.skillSlot.get(status).forEach(this.skillAffect);
+  }
+
+  buffAffect(buff: Buff) {
+    buff.run();
+    buff.discountAffectTimes();
+  }
+
+  skillAffect(skill: Skill) {
+    skill.run();
+  }
+
+  cleanUp() {
+    this.status = PlayerStatus.ready;
+    for (const [_, value] of this.buffs) {
+      for (const buff of value) {
+        if (buff.affectTimes === 0) {
+          value.delete(buff);
+        }
+      }
+    }
+  }
 }

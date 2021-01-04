@@ -1,6 +1,5 @@
 import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
-import { brainField } from '../../../../index';
 
 export default class DodgeUnattackableBuff extends Buff {
   affectTimes = 1;
@@ -14,12 +13,12 @@ export default class DodgeUnattackableBuff extends Buff {
   id = 'dodge-unattackable-buff';
 
   run() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.attackable.value = false;
   }
 
   destroy() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.attackable.setDefault();
   }
 }

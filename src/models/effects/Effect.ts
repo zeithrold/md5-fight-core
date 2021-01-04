@@ -1,4 +1,5 @@
 import { PlayerStatus } from '../player';
+import { BattleField } from '../../field';
 
 export enum EffectType {
   skill,
@@ -23,9 +24,10 @@ export default abstract class Effect {
    */
   abstract playerId: string;
 
-  constructor(data?: object) {
+  readonly battleField: BattleField;
+
+  constructor(battleField: BattleField, data?: object) {
+    this.battleField = battleField;
     if (data) this.data = data;
   }
-
-  abstract init ();
 }

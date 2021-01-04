@@ -1,19 +1,23 @@
 import { Effect, EffectType } from './index';
-import { brainField } from '../../index';
 
 export default abstract class Buff extends Effect {
   type = EffectType.buff;
 
-  affectTimes: number | 'infinity' = 1;
+  affectTimes: number = 1;
 
   playerId: string;
 
   abstract run();
 
   init() {
-    brainField.registerBuff(
+    this.battleField.registerBuff(
       this.playerId, this,
     );
+  }
+
+  discountAffectTimes() {
+    if (this.affectTimes === -1) return;
+    this.affectTimes -= 1;
   }
 
   abstract destroy();

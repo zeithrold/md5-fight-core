@@ -1,5 +1,4 @@
 import { Buff } from '../../index';
-import { brainField } from '../../../../index';
 import { PlayerStatus } from '../../../player';
 
 export default class ShadowKnifeWeakenBuff extends Buff {
@@ -14,12 +13,12 @@ export default class ShadowKnifeWeakenBuff extends Buff {
   affectTimes = 1;
 
   run() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.attackPower.value *= 0.6;
   }
 
   destroy() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.attackPower.setDefault();
   }
 }

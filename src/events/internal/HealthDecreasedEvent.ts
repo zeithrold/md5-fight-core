@@ -5,6 +5,8 @@ class HealthDecreasedEvent implements Event {
 
   name = '生命值减少事件'
 
+  color = 'blue';
+
   data: {
     decreasedAmount: number;
   };

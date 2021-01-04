@@ -1,5 +1,4 @@
 import { Buff } from '../../index';
-import { brainField } from '../../../../index';
 import { PlayerStatus, PlayerType } from '../../../player/Player';
 
 export default class GambleKingWeakenBuff extends Buff {
@@ -14,13 +13,13 @@ export default class GambleKingWeakenBuff extends Buff {
   affectTimes = 1;
 
   run() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.defence[PlayerType.magical].value.defence = 0;
     ownerPlayer.defence[PlayerType.physical].value.defence = 0;
   }
 
   destroy() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.defence[PlayerType.magical].setDefault();
     ownerPlayer.defence[PlayerType.physical].setDefault();
   }

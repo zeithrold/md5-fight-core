@@ -1,6 +1,5 @@
 import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
-import battleField, { brainField } from '../../../../index';
 import { LanguageEffectStunnedEvent } from './index';
 
 export default class LanguageEffectStunnedBuff extends Buff {
@@ -15,13 +14,13 @@ export default class LanguageEffectStunnedBuff extends Buff {
   affectTiming = PlayerStatus.beforeAttack;
 
   run() {
-    battleField.eventRegistry.registerEvent(new LanguageEffectStunnedEvent(), this.playerId);
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    this.battleField.eventRegistry.registerEvent(new LanguageEffectStunnedEvent(), this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.stunned.value = true;
   }
 
   destroy() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.stunned.setDefault();
   }
 }

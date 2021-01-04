@@ -1,6 +1,5 @@
 import { Effect, EffectType } from './index';
 import { PlayerStatus } from '../player';
-import { brainField } from '../../index';
 
 export default abstract class Skill extends Effect {
   // Sets the type of Effect to Skill.
@@ -17,10 +16,6 @@ export default abstract class Skill extends Effect {
   constructor(playerId: string, data?: any) {
     super(!data ? data : null);
     this.playerId = playerId;
-  }
-
-  init() {
-    brainField.registerSkill(this.playerId, this);
   }
 
   abstract run();

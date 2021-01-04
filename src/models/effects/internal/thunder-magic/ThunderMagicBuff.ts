@@ -1,6 +1,5 @@
 import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
-import battleField, { brainField } from '../../../../index';
 import { ThunderMagicBuffAffectedEvent } from './index';
 
 export default class ThunderMagicBuff extends Buff {
@@ -15,11 +14,14 @@ export default class ThunderMagicBuff extends Buff {
   affectTiming = PlayerStatus.beforeAttack;
 
   run() {
-    if (brainField.generateRandom() > 50) {
+    if (this.battleField.generateRandom() > 50) {
       return;
     }
-    battleField.eventRegistry.registerEvent(new ThunderMagicBuffAffectedEvent(), this.playerId);
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    this.battleField.eventRegistry.registerEvent(
+      new ThunderMagicBuffAffectedEvent(),
+      this.playerId,
+    );
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.health.value *= 0.5;
   }
 

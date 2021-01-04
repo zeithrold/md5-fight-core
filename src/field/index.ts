@@ -1,7 +1,6 @@
 import BattleField from './BattleField';
-import BrainField from './BrainField';
 
 export {
+  // eslint-disable-next-line import/prefer-default-export
   BattleField,
-  BrainField,
 };

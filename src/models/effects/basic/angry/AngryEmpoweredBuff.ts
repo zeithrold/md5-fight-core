@@ -1,6 +1,5 @@
 import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
-import { brainField } from '../../../../index';
 
 export default class AngryEmpoweredBuff extends Buff {
   id = 'angry-empowered-buff';
@@ -14,12 +13,12 @@ export default class AngryEmpoweredBuff extends Buff {
   affectTiming = PlayerStatus.onAttack;
 
   run() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.attackPower.value *= 1.5;
   }
 
   destroy() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.attackPower.setDefault();
   }
 }

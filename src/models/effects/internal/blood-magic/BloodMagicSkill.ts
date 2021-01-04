@@ -1,6 +1,5 @@
 import { Skill } from '../../index';
 import { PlayerStatus } from '../../../player';
-import battleField, { brainField } from '../../../../index';
 import { BloodMagicAffectedEvent } from './index';
 
 export default class BloodMagicSkill extends Skill {
@@ -20,16 +19,18 @@ export default class BloodMagicSkill extends Skill {
     if (this.data.affected) {
       return;
     }
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     if (ownerPlayer.health.value > ownerPlayer.health.defaultValue * 0.1) {
       return;
     }
-    battleField.eventRegistry.registerEvent(new BloodMagicAffectedEvent(), this.playerId);
-    const oppositePlayer = brainField.getOppositePlayer(this.playerId);
+    this.battleField.eventRegistry.registerEvent(new BloodMagicAffectedEvent(), this.playerId);
+    const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
     const averageHP = (
       ownerPlayer.health.value
         + oppositePlayer.health.value
     ) / 2;
+    ownerPlayer.health.value = averageHP;
+    oppositePlayer.health.value = averageHP;
     this.data.affected = false;
   }
 }

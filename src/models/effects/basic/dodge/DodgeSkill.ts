@@ -1,6 +1,5 @@
 import { Skill } from '../../index';
 import { PlayerStatus } from '../../../player';
-import battleField, { brainField } from '../../../../index';
 import DodgeSucceededEvent from './DodgeSucceededEvent';
 
 export default class DodgeSkill extends Skill {
@@ -13,10 +12,10 @@ export default class DodgeSkill extends Skill {
   affectTiming = PlayerStatus.beforeUnderAttack;
 
   run() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
-    const random = brainField.generateRandom();
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
+    const random = this.battleField.generateRandom();
     if (random < (ownerPlayer.speed.value / 2)) {
-      battleField.eventRegistry.registerEvent(new DodgeSucceededEvent(), this.playerId);
+      this.battleField.eventRegistry.registerEvent(new DodgeSucceededEvent(), this.playerId);
     }
   }
 }

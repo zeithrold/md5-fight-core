@@ -1,5 +1,4 @@
 import { Buff } from '../../index';
-import { brainField } from '../../../../index';
 import { PlayerStatus } from '../../../player';
 
 export default class ShadowKnifeCannotDodgeBuff extends Buff {
@@ -14,12 +13,12 @@ export default class ShadowKnifeCannotDodgeBuff extends Buff {
   affectTimes = 1;
 
   run() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.speed.value = 0;
   }
 
   destroy() {
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.speed.setDefault();
   }
 }

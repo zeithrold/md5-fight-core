@@ -1,6 +1,5 @@
 import { Skill } from '../../index';
 import { PlayerStatus } from '../../../player';
-import battleField, { brainField } from '../../../../index';
 import { AngryAffectedEvent } from './index';
 import AngryEmpoweredBuff from './AngryEmpoweredBuff';
 import AngryWeakenBuff from './AngryWeakenBuff';
@@ -18,13 +17,21 @@ export default class AngrySkill extends Skill {
     angryRate: number;
   }
 
+  constructor(playerId: string) {
+    super(playerId, { angryRate: 0 });
+  }
+
+  increaseAngryRate(increase: number) {
+    this.data.angryRate += increase;
+  }
+
   run() {
-    battleField.eventRegistry.registerEvent(new AngryAffectedEvent(), this.playerId);
+    this.battleField.eventRegistry.registerEvent(new AngryAffectedEvent(), this.playerId);
     this.data.angryRate = 0;
-    brainField.registerBuff(this.playerId, new AngryEmpoweredBuff());
-    brainField.registerBuff(
-      brainField.getOppositePlayer(this.playerId).name,
-      new AngryWeakenBuff(),
+    this.battleField.registerBuff(this.playerId, new AngryEmpoweredBuff(this.battleField));
+    this.battleField.registerBuff(
+      this.battleField.getOppositePlayer(this.playerId).name,
+      new AngryWeakenBuff(this.battleField),
     );
   }
 }

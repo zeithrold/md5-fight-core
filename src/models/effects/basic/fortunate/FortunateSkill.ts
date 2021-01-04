@@ -1,6 +1,5 @@
 import Skill from '../../Skill';
 import { PlayerStatus } from '../../../player';
-import battleField, { brainField } from '../../../../index';
 import FortunateActivatedEvent from './FortunateActivatedEvent';
 import FortunateWeakenBuff from './FortunateWeakenBuff';
 
@@ -22,18 +21,18 @@ export default class FortunateSkill extends Skill {
   }
 
   run() {
-    const random = brainField.generateRandom();
+    const random = this.battleField.generateRandom();
     if (random < this.data.fortunate) {
       // Register FortunateActivatedEvent;
-      battleField.eventRegistry.registerEvent(
+      this.battleField.eventRegistry.registerEvent(
         new FortunateActivatedEvent(this.data.fortunate), this.playerId,
       );
       // Get opposite Player.
-      const oppositePlayer = brainField.getOppositePlayer(this.playerId);
+      const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
       // Register a FortunateWeakenBuff on the opposite Player.
-      brainField.registerBuff(
+      this.battleField.registerBuff(
         oppositePlayer.name,
-        new FortunateWeakenBuff(this.data.fortunate),
+        new FortunateWeakenBuff(this.data.fortunate, this.battleField),
       );
     }
   }

@@ -1,5 +1,4 @@
 import { Skill } from '../../index';
-import battleField, { brainField } from '../../../../index';
 import { ThunderMagicBuff, ThunderMagicSkillAffectedEvent } from './index';
 import { PlayerStatus } from '../../../player';
 
@@ -11,13 +10,15 @@ export default class ThunderMagicSkill extends Skill {
   description = '被攻击者有30%的概率获得3回合的"雷电法术: 雷阵雨"效果。';
 
   run() {
-    if (brainField.generateRandom() > 30) {
+    if (this.battleField.generateRandom() > 30) {
       return;
     }
-    battleField.eventRegistry.registerEvent(new ThunderMagicSkillAffectedEvent(), this.playerId);
-    const oppositePlayer = brainField.getOppositePlayer(this.playerId);
+    this.battleField.eventRegistry.registerEvent(
+      new ThunderMagicSkillAffectedEvent(), this.playerId,
+    );
+    const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
     const isOppositePlayerHaveBuff = oppositePlayer.buffs[PlayerStatus.beforeAttack].findIndex(
-      (value, index) => value.id === 'thunder-magic-buff',
+      (value, _) => value.id === 'thunder-magic-buff',
     );
     if (isOppositePlayerHaveBuff) {
       oppositePlayer.buffs[PlayerStatus.beforeAttack][isOppositePlayerHaveBuff].destroy();
@@ -26,6 +27,6 @@ export default class ThunderMagicSkill extends Skill {
           .buffs[PlayerStatus.beforeAttack].slice(0, isOppositePlayerHaveBuff)
           .concat(oppositePlayer.buffs[PlayerStatus.beforeAttack].slice(isOppositePlayerHaveBuff));
     }
-    brainField.registerBuff(this.playerId, new ThunderMagicBuff());
+    this.battleField.registerBuff(this.playerId, new ThunderMagicBuff(this.battleField));
   }
 }

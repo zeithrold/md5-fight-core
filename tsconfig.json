@@ -6,7 +6,7 @@
     "outDir": "dist",
     "esModuleInterop": true
   },
-  "include": ["src"],
+  "include": ["src", "tests"],
   "exclude": [
     "node_modules"
   ]

@@ -1,6 +1,5 @@
 import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
-import battleField, { brainField } from '../../../../index';
 import { WitchPoisonBuffAffectedEvent } from './index';
 
 export default class WitchPoisonBuff extends Buff {
@@ -15,11 +14,11 @@ export default class WitchPoisonBuff extends Buff {
   affectTiming = PlayerStatus.beforeAttack;
 
   run() {
-    if (brainField.generateRandom() > 50) {
+    if (this.battleField.generateRandom() > 50) {
       return;
     }
-    battleField.eventRegistry.registerEvent(new WitchPoisonBuffAffectedEvent(), this.playerId);
-    const ownerPlayer = brainField.getPlayer(this.playerId);
+    this.battleField.eventRegistry.registerEvent(new WitchPoisonBuffAffectedEvent(), this.playerId);
+    const ownerPlayer = this.battleField.getPlayer(this.playerId);
     ownerPlayer.health.value -= ownerPlayer.health.defaultValue * 0.1;
   }
 

@@ -6,6 +6,7 @@ import HealthIncreasedEvent from './HealthIncreasedEvent';
 import SpeedModifiedEvent from './SpeedModifiedEvent';
 import DefenceModifiedEvent from './DefenceModifiedEvent';
 import StunnedModifiedEvent from './StunnedModifiedEvent';
+import LowAttackAngryEvent from './LowAttackAngryEvent';
 
 export {
   AttackPowerModifiedEvent,
@@ -16,4 +17,5 @@ export {
   HealthDecreasedEvent,
   DefenceModifiedEvent,
   StunnedModifiedEvent,
+  LowAttackAngryEvent,
 };

@@ -1,4 +1,4 @@
-import Player from './Player';
+import { BattleField } from '../../field';
 
 export default class PlayerProperty<T> {
   /**
@@ -13,10 +13,13 @@ export default class PlayerProperty<T> {
 
   readonly playerId: string;
 
-  constructor(value: T, playerId: string, defaultValue?: T) {
+  readonly battleField;
+
+  constructor(value: T, playerId: string, battleField: BattleField, defaultValue?: T) {
     this.internalValue = value;
     this.defaultValue = !defaultValue ? defaultValue : value;
     this.playerId = playerId;
+    this.battleField = battleField;
   }
 
   /**

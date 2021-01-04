@@ -1,5 +1,4 @@
 import { Skill } from '../../index';
-import { brainField } from '../../../../index';
 import { LanguageEffectStunnedBuff, LanguageEffectWeakenBuff } from './index';
 
 export default class LanguageEffectSkill extends Skill {
@@ -10,15 +9,21 @@ export default class LanguageEffectSkill extends Skill {
   description = '被攻击者有20%的概率下一轮无法攻击；被攻击者有30%的概率下一轮攻击力降低50%。'
 
   run() {
-    if (brainField.generateRandom() > 50) {
+    if (this.battleField.generateRandom() > 50) {
       return;
     }
-    const random = brainField.generateRandom();
-    const oppositePlayer = brainField.getOppositePlayer(this.playerId);
+    const random = this.battleField.generateRandom();
+    const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
     if (random < 40) {
-      brainField.registerBuff(oppositePlayer.name, new LanguageEffectStunnedBuff());
+      this.battleField.registerBuff(
+        oppositePlayer.name,
+        new LanguageEffectStunnedBuff(this.battleField),
+      );
     } else {
-      brainField.registerBuff(oppositePlayer.name, new LanguageEffectWeakenBuff());
+      this.battleField.registerBuff(
+        oppositePlayer.name,
+        new LanguageEffectWeakenBuff(this.battleField),
+      );
     }
   }
 }
