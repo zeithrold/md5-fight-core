@@ -14,7 +14,7 @@ export default class AngryEmpoweredBuff extends Buff {
 
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.attackPower.value *= 1.5;
+    ownerPlayer.attackPower.value = ownerPlayer.attackPower.internalValue * 1.5;
   }
 
   destroy() {

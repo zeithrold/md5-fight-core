@@ -12,7 +12,7 @@ export default class LanguageEffectWeakenBuff extends Buff {
 
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.attackPower.value *= 0.5;
+    ownerPlayer.attackPower.value = ownerPlayer.attackPower.internalValue * 0.5;
   }
 
   destroy() {

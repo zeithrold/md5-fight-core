@@ -14,8 +14,14 @@ export default class GambleKingWeakenBuff extends Buff {
 
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.defence[PlayerType.magical].value.defence = 0;
-    ownerPlayer.defence[PlayerType.physical].value.defence = 0;
+    ownerPlayer.defence[PlayerType.magical].value = {
+      type: PlayerType.magical,
+      defence: 0,
+    };
+    ownerPlayer.defence[PlayerType.physical].value = {
+      type: PlayerType.physical,
+      defence: 0,
+    };
   }
 
   destroy() {

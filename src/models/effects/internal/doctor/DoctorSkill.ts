@@ -14,6 +14,7 @@ export default class DoctorSkill extends Skill {
     }
     this.battleField.eventRegistry.registerEvent(new DoctorHealedEvent(), this.playerId);
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.health.value += (ownerPlayer.health.defaultValue * 0.2);
+    ownerPlayer.health.value = ownerPlayer.health.internalValue
+      + (ownerPlayer.health.defaultValue * 0.2);
   }
 }

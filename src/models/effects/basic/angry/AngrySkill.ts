@@ -30,7 +30,7 @@ export default class AngrySkill extends Skill {
   run() {
     if (this.data.angryRate < 100) return;
     this.battleField.eventRegistry.registerEvent(new AngryAffectedEvent(), this.playerId);
-    this.data.angryRate = 0;
+    this.data.angryRate -= 100;
     this.battleField.registerBuff(
       this.playerId, new AngryEmpoweredBuff(this.battleField, this.playerId),
     );

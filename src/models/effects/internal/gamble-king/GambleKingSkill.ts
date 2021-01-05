@@ -22,7 +22,8 @@ export default class GambleKingSkill extends Skill {
     } else {
       this.battleField.eventRegistry.registerEvent(new GambleKingFailedEvent(), this.playerId);
       const ownerPlayer = this.battleField.getPlayer(this.playerId);
-      ownerPlayer.health.value -= ownerPlayer.health.defaultValue * 0.3;
+      ownerPlayer.health.value = ownerPlayer.health.internalValue
+        - ownerPlayer.health.defaultValue * 0.3;
     }
   }
 }

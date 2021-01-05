@@ -22,7 +22,7 @@ export default class ThunderMagicBuff extends Buff {
       this.playerId,
     );
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.health.value *= 0.5;
+    ownerPlayer.health.value = ownerPlayer.health.internalValue * 0.5;
   }
 
   destroy() {}

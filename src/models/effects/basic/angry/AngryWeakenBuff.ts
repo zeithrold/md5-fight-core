@@ -1,5 +1,6 @@
 import { Buff } from '../../index';
 import { PlayerStatus } from '../../../player';
+import { PlayerType } from '../../../player/Player';
 
 export default class AngryWeakenBuff extends Buff {
   id = 'angry-weaken-buff';
@@ -13,12 +14,20 @@ export default class AngryWeakenBuff extends Buff {
   affectTiming = PlayerStatus.onUnderAttack;
 
   run() {
-    const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.attackPower.value *= 0.5;
+    const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
+    oppositePlayer.defence[PlayerType.physical].value = {
+      type: PlayerType.physical,
+      defence: oppositePlayer.defence[PlayerType.physical].internalValue.defence * 0.5,
+    };
+    oppositePlayer.defence[PlayerType.magical].value = {
+      type: PlayerType.magical,
+      defence: oppositePlayer.defence[PlayerType.magical].internalValue.defence * 0.5,
+    };
   }
 
   destroy() {
-    const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.attackPower.setDefault();
+    const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
+    oppositePlayer.defence[PlayerType.physical].setDefault();
+    oppositePlayer.defence[PlayerType.magical].setDefault();
   }
 }

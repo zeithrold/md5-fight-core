@@ -14,7 +14,7 @@ export default class ShadowKnifeWeakenBuff extends Buff {
 
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.attackPower.value *= 0.6;
+    ownerPlayer.attackPower.value = ownerPlayer.attackPower.internalValue * 0.6;
   }
 
   destroy() {
