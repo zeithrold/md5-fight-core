@@ -1,6 +1,7 @@
 import { Skill } from '../../index';
 import { PlayerStatus } from '../../../player';
 import DodgeSucceededEvent from './DodgeSucceededEvent';
+import DodgeUnattackableBuff from './DodgeUnattackableBuff';
 
 export default class DodgeSkill extends Skill {
   id = 'dodge-skill';
@@ -16,6 +17,9 @@ export default class DodgeSkill extends Skill {
     const random = this.battleField.generateRandom();
     if (random < (ownerPlayer.speed.internalValue / 2)) {
       this.battleField.eventRegistry.registerEvent(new DodgeSucceededEvent(), this.playerId);
+      this.battleField.registerBuff(
+        ownerPlayer.name, new DodgeUnattackableBuff(this.battleField, ownerPlayer.name),
+      );
     }
   }
 }

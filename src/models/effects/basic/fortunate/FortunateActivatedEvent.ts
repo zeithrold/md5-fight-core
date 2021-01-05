@@ -10,7 +10,7 @@ export default class FortunateActivatedEvent implements Event {
   }
 
   constructor(fortunate) {
-    this.data.fortunate = fortunate;
+    this.data = { fortunate };
   }
 
   message(player: string) {

@@ -42,7 +42,14 @@ export default class BattleField {
   }
 
   getOppositePlayer(playerId: string) {
-    if (!(playerId in Object.keys(this.players))) { // If playerId does NOT in player.keys
+    const playerIdList = [
+      this.players.west.name,
+      this.players.east.name,
+    ];
+    if (
+      playerIdList.findIndex(
+        (value) => value === playerId,
+      ) === -1) { // If playerId does NOT in player.keys
       throw new Error('Invalid playerId');
     }
     // No error, means valid playerId.
@@ -90,14 +97,16 @@ export default class BattleField {
 
   round() {
     const primaryFightHasDeath = this.fight(this.fasterSide);
+    this.eventRegistry.pushEvent();
     if (primaryFightHasDeath) return true;
     const oppositeSide = this.fasterSide === 'east' ? 'west' : 'east';
+    this.eventRegistry.pushEvent();
     return this.fight(oppositeSide);
   }
 
   fight(playerSide: 'east' | 'west') {
     const attackerPlayer = this.players[playerSide];
-    const underAttackPlayer = this.getOppositePlayer(playerSide);
+    const underAttackPlayer = this.getOppositePlayer(attackerPlayer.name);
     // BEFORE (UNDER)ATTACK
     attackerPlayer.changeStatus(PlayerStatus.beforeAttack);
     if (this.checkDeath()) return true; // Death Check.
@@ -114,7 +123,7 @@ export default class BattleField {
     underAttackPlayer.changeStatus(PlayerStatus.onUnderAttack);
     if (this.checkDeath()) return true; // Death Check.
     // Check if under-attack player is unattackable.
-    if (attackerPlayer.attackable.internalValue === false) {
+    if (underAttackPlayer.attackable.internalValue === false) {
       attackerPlayer.cleanUp();
       underAttackPlayer.cleanUp();
       return false;

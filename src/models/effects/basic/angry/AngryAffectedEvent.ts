@@ -1,7 +1,7 @@
 import { Event } from '../../../../events';
 
 export default class AngryAffectedEvent implements Event {
-  id = 'dodge-succeeded-event';
+  id = 'angry-affected-event';
 
   name = '怒气达成事件';
 

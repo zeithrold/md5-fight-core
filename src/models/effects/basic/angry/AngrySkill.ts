@@ -19,7 +19,8 @@ export default class AngrySkill extends Skill {
   }
 
   constructor(battleField: BattleField, playerId: string) {
-    super(battleField, playerId, { angryRate: 0 });
+    super(battleField, playerId);
+    this.data = { angryRate: 0 };
   }
 
   increaseAngryRate(increase: number) {
@@ -27,6 +28,7 @@ export default class AngrySkill extends Skill {
   }
 
   run() {
+    if (this.data.angryRate < 100) return;
     this.battleField.eventRegistry.registerEvent(new AngryAffectedEvent(), this.playerId);
     this.data.angryRate = 0;
     this.battleField.registerBuff(

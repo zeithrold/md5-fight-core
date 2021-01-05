@@ -234,6 +234,7 @@ export default class Player {
     for (const [_, value] of this.buffs) {
       for (const buff of value) {
         if (buff.affectTimes === 0) {
+          buff.destroy();
           value.delete(buff);
         }
       }
