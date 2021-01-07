@@ -5,6 +5,8 @@ import RandomOrderEvent from '../events/internal/RandomOrderEvent';
 import AttackEvent from '../events/internal/AttackEvent';
 import { LowAttackAngryEvent } from '../events/internal';
 import EventRegistry from '../events/EventRegistry';
+import BothDeathEvent from '../events/internal/BothDeathEvent';
+import { DeathEvent } from '../events';
 
 /**
  * The API platform of the Effect.
@@ -96,12 +98,25 @@ export default class BattleField {
   }
 
   round() {
+    if (this.checkDeath()) {
+      const eastPlayerDead = this.players.east.health.internalValue === 0;
+      const westPlayerDead = this.players.west.health.internalValue === 0;
+      if (westPlayerDead && eastPlayerDead) {
+        this.eventRegistry.registerEvent(new BothDeathEvent(), this.players.west.name);
+      } if (westPlayerDead && (!eastPlayerDead)) {
+        this.eventRegistry.registerEvent(new DeathEvent(), this.players.west.name);
+      } if ((!westPlayerDead) && eastPlayerDead) {
+        this.eventRegistry.registerEvent(new DeathEvent(), this.players.east.name);
+      }
+      return true;
+    }
     const primaryFightHasDeath = this.fight(this.fasterSide);
     this.eventRegistry.pushEvent();
     if (primaryFightHasDeath) return true;
     const oppositeSide = this.fasterSide === 'east' ? 'west' : 'east';
+    const secondaryFightHasDeath = this.fight(oppositeSide);
     this.eventRegistry.pushEvent();
-    return this.fight(oppositeSide);
+    return secondaryFightHasDeath;
   }
 
   fight(playerSide: 'east' | 'west') {

@@ -8,7 +8,7 @@ export default class LanguageEffectWeakenBuff extends Buff {
 
   description = '玩家本轮攻击力减弱50%。';
 
-  affectTiming = PlayerStatus.beforeUnderAttack;
+  affectTiming = PlayerStatus.beforeAttack;
 
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
