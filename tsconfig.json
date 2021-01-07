@@ -4,7 +4,8 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "dist",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": true
   },
   "include": ["src", "tests"],
   "exclude": [

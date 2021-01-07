@@ -4,8 +4,10 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prepublishOnly": "npm run build"
   },
+  "main": "dist/src/index.js",
   "license": "BSD-3-Clause",
   "dependencies": {
     "blueimp-md5": "^2.18.0"
