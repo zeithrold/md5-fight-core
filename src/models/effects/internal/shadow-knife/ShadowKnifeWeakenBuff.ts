@@ -4,9 +4,9 @@ import { PlayerStatus } from '../../../player';
 export default class ShadowKnifeWeakenBuff extends Buff {
   id = 'shadow-knife-weaken-buff';
 
-  name = '快刀斩乱麻:影刃';
+  name = '快刀斩乱麻: 影刃';
 
-  description = '玩家攻击力变为60%。'
+  description = '玩家攻击力变为40%。'
 
   affectTiming = PlayerStatus.onAttack;
 
@@ -14,7 +14,7 @@ export default class ShadowKnifeWeakenBuff extends Buff {
 
   run() {
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.attackPower.value = ownerPlayer.attackPower.internalValue * 0.6;
+    ownerPlayer.attackPower.value = ownerPlayer.attackPower.internalValue * 0.4;
   }
 
   destroy() {

@@ -6,10 +6,10 @@ export default class ShadowKnifeSkill extends Skill {
 
   name = '快刀斩乱麻';
 
-  description = '攻击者在攻击阶段有50%的概率对被攻击者进行不可闪避的，攻击力为60%的攻击。'
+  description = '攻击者在攻击阶段有40%的概率对被攻击者进行不可闪避的，攻击力为40%的攻击。'
 
   run() {
-    if (this.battleField.generateRandom() > 50) {
+    if (this.battleField.generateRandom() < 40) {
       return;
     }
     this.battleField.eventRegistry.registerEvent(new ShadowKnifeAffectedEvent(), this.playerId);
