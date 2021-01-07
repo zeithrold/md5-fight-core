@@ -15,18 +15,14 @@ export default class WitchSkill extends Skill {
     }
     this.battleField.eventRegistry.registerEvent(new WitchSkillAffectedEvent(), this.playerId);
     const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
-    const isOppositePlayerHaveBuff = oppositePlayer.buffs[PlayerStatus.beforeAttack].findIndex(
-      (value, _) => value.id === 'witch-poison-buff',
-    );
-    if (isOppositePlayerHaveBuff) {
-      oppositePlayer.buffs[PlayerStatus.beforeAttack][isOppositePlayerHaveBuff].destroy();
-      oppositePlayer
-        .buffs[PlayerStatus.beforeAttack] = oppositePlayer
-          .buffs[PlayerStatus.beforeAttack].slice(0, isOppositePlayerHaveBuff)
-          .concat(oppositePlayer.buffs[PlayerStatus.beforeAttack].slice(isOppositePlayerHaveBuff));
+    for (const buff of oppositePlayer.buffs.get(PlayerStatus.beforeAttack)) {
+      if (buff.id === 'witch-poison-buff') {
+        buff.destroy();
+        oppositePlayer.buffs.get(PlayerStatus.beforeAttack).delete(buff);
+      }
     }
     this.battleField.registerBuff(
-      this.playerId, new WitchPoisonBuff(this.battleField, this.playerId),
+      oppositePlayer.name, new WitchPoisonBuff(this.battleField, oppositePlayer.name),
     );
   }
 }

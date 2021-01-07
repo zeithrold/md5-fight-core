@@ -195,7 +195,9 @@ export default class Player {
       dodgeSkill,
       angrySkill,
     };
-    const additionalSkill: Skill = getSkill(this.battleField, propertyNumber[4], this.name);
+    const additionalSkill: Skill = getSkill(
+      this.battleField, propertyNumber[4], this.name,
+    );
     this.additionalSkill = additionalSkill;
     this.skillSlot.get(additionalSkill.affectTiming).add(additionalSkill);
     // END EFFECT REGISTER

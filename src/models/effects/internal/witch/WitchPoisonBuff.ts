@@ -19,7 +19,8 @@ export default class WitchPoisonBuff extends Buff {
     }
     this.battleField.eventRegistry.registerEvent(new WitchPoisonBuffAffectedEvent(), this.playerId);
     const ownerPlayer = this.battleField.getPlayer(this.playerId);
-    ownerPlayer.health.value -= ownerPlayer.health.defaultValue * 0.1;
+    ownerPlayer.health.value = ownerPlayer.health.internalValue
+      - ownerPlayer.health.defaultValue * 0.1;
   }
 
   destroy() {}

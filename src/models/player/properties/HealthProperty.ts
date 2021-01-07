@@ -1,5 +1,6 @@
 import PlayerProperty from '../PlayerProperty';
 import { DeathEvent, HealthDecreasedEvent, HealthIncreasedEvent } from '../../../events/internal';
+import HealthOverIncreasedEvent from '../../../events/internal/HealthOverIncreasedEvent';
 
 /**
  * The Health Property of a player.
@@ -21,6 +22,9 @@ export default class HealthProperty extends PlayerProperty<number> {
       return;
     } if (value > this.internalValue) {
       if (value > this.defaultValue) {
+        this.battleField.eventRegistry.registerEvent(
+          new HealthOverIncreasedEvent(value - this.internalValue), this.playerId,
+        );
         this.setDefault();
         return;
       }

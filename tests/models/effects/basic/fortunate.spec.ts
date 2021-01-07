@@ -15,7 +15,7 @@ describe('fortunate skill test', () => {
       ),
     ).not.toBe(-1);
     expect(mockedFortunateSkill).toBeCalled();
-    expect(battleField.eventRegistry.storedEvent[2].event.data)
+    expect(battleField.eventRegistry.storedEvent[3].event.data)
       .toStrictEqual({
         attackPower: battleField.players.east.attackPower.defaultValue
           * (battleField.players.west.basicSkills.fortunateSkill.data.fortunate / 100),

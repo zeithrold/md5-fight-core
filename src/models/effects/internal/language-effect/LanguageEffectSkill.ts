@@ -1,5 +1,6 @@
 import { Skill } from '../../index';
 import { LanguageEffectStunnedBuff, LanguageEffectWeakenBuff } from './index';
+import LanguageEffectAffectedEvent from './LanguageEffectAffectedEvent';
 
 export default class LanguageEffectSkill extends Skill {
   id = 'language-effect-skill';
@@ -15,11 +16,19 @@ export default class LanguageEffectSkill extends Skill {
     const random = this.battleField.generateRandom();
     const oppositePlayer = this.battleField.getOppositePlayer(this.playerId);
     if (random < 40) {
+      this.battleField.eventRegistry.registerEvent(
+        new LanguageEffectAffectedEvent('stunned'),
+        this.playerId,
+      );
       this.battleField.registerBuff(
         oppositePlayer.name,
         new LanguageEffectStunnedBuff(this.battleField, oppositePlayer.name),
       );
     } else {
+      this.battleField.eventRegistry.registerEvent(
+        new LanguageEffectAffectedEvent('weaken'),
+        this.playerId,
+      );
       this.battleField.registerBuff(
         oppositePlayer.name,
         new LanguageEffectWeakenBuff(this.battleField, oppositePlayer.name),

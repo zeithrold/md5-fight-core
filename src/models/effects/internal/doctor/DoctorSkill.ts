@@ -9,7 +9,7 @@ export default class DoctorSkill extends Skill {
   description = '攻击者在攻击阶段有40%的概率恢复自身生命值最大值的20%。';
 
   run() {
-    if (this.battleField.generateRandom() < 50) {
+    if (this.battleField.generateRandom() > 50) {
       return;
     }
     this.battleField.eventRegistry.registerEvent(new DoctorHealedEvent(), this.playerId);

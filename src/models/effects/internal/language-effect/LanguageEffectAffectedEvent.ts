@@ -10,7 +10,7 @@ export default class LanguageEffectAffectedEvent implements Event {
   }
 
   constructor(type: 'weaken' | 'stunned') {
-    this.data.type = type;
+    this.data = { type };
   }
 
   message(player: string) {
