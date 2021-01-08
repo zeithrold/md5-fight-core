@@ -14,7 +14,7 @@ class HealthIncreasedEvent implements Event {
   }
 
   message(player: string) {
-    return `${player}的生命值增加了${this.data.increasedAmount}!`;
+    return `${player}的生命值增加了${(this.data.increasedAmount).toFixed(2)}!`;
   }
 }
 

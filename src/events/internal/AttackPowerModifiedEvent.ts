@@ -14,6 +14,6 @@ export default class AttackPowerModifiedEvent implements Event {
   }
 
   message(player: string) {
-    return `${player}的攻击力被修改为${this.data.attackPower}`;
+    return `${player}的攻击力被修改为${(this.data.attackPower).toFixed(2)}`;
   }
 }

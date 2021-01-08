@@ -14,6 +14,6 @@ export default class SpeedModifiedEvent implements Event {
   }
 
   message(player :string) {
-    return `${player}的速度被修改为${this.data.speed === 0 ? '不可闪避' : this.data.speed}。`;
+    return `${player}的速度被修改为${this.data.speed === 0 ? '不可闪避' : (this.data.speed).toFixed(2)}。`;
   }
 }

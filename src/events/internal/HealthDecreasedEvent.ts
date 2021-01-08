@@ -16,7 +16,7 @@ class HealthDecreasedEvent implements Event {
   }
 
   message(player: string) {
-    return `${player}的生命值减少了${this.data.decreasedAmount}!`;
+    return `${player}的生命值减少了${(this.data.decreasedAmount).toFixed(2)}!`;
   }
 }
 

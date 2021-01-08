@@ -14,7 +14,7 @@ class HealthOverIncreasedEvent implements Event {
   }
 
   message(player: string) {
-    return `${player}的生命值增加${this.data.increasedAmount}，但由于超过默认值，因此设置为默认值。`;
+    return `${player}的生命值增加${(this.data.increasedAmount).toFixed(2)}，但由于超过默认值，因此设置为默认值。`;
   }
 }
 

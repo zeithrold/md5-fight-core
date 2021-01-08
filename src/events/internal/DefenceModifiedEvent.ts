@@ -19,6 +19,6 @@ export default class DefenceModifiedEvent implements Event {
   }
 
   message(player: string) {
-    return `${player}的${this.data.type === PlayerType.physical ? '物理' : '法术'}防御力被修改为${this.data.defence}`;
+    return `${player}的${this.data.type === PlayerType.physical ? '物理' : '法术'}防御力被修改为${(this.data.defence).toFixed(2)}`;
   }
 }

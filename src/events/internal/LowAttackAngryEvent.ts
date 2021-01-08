@@ -16,6 +16,6 @@ export default class LowAttackAngryEvent implements Event {
   }
 
   message(player: string) {
-    return `${player}的输出过低，积攒10的怒气值。`;
+    return `${player}的输出过低，积攒${(this.data.increasedAnger).toFixed(2)}的怒气值。`;
   }
 }
