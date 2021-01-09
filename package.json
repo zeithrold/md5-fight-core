@@ -1,9 +1,5 @@
 {
   "name": "md5-fight-core",
-  "dist-tags": {
-    "latest": "1.0.1",
-    "next": "1.0.2-beta"
-  },
   "version": "1.0.2-beta",
   "scripts": {
     "test": "jest",
