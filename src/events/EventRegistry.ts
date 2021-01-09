@@ -28,7 +28,7 @@ export default class EventRegistry {
   }
 
   get messages() {
-    const result = new Set<MessageBlock[]>();
+    const result: MessageBlock[][] = [];
     for (const eventModule of this.events) {
       const messageBlocks = [];
       for (const eventBlock of eventModule) {
@@ -38,7 +38,7 @@ export default class EventRegistry {
         };
         messageBlocks.push(messageBlock);
       }
-      result.add(messageBlocks);
+      result.push(messageBlocks);
     }
     return result;
   }

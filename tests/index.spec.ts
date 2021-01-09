@@ -19,11 +19,17 @@ describe('the main test', () => {
       west: '云故',
     });
     expect(bf.round()).toBeFalsy();
+    console.log(bf.eventRegistry.events);
     console.log(bf.toRender.west.health);
     console.log(bf.toRender.east.health);
     bf.round();
     console.log(bf.toRender.west.health);
     console.log(bf.toRender.east.health);
-    console.log(bf.eventRegistry.messages);
+    // eslint-disable-next-line guard-for-in
+    bf.toRender.messages.forEach(
+      (mB) => {
+        mB.forEach((message) => console.log(message.message));
+      },
+    );
   });
 });

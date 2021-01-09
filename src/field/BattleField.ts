@@ -21,8 +21,6 @@ export default class BattleField {
 
   readonly eventRegistry = new EventRegistry();
 
-  messages = this.eventRegistry.messages;
-
   constructor(
     players: { west: string; east: string },
     env: 'test' | 'production' | 'dev' = 'production',
@@ -180,7 +178,7 @@ export default class BattleField {
     return {
       west: new RenderedPlayerInfo(this.players.west),
       east: new RenderedPlayerInfo(this.players.east),
-      messages: this.messages,
+      messages: this.eventRegistry.messages,
     };
   }
 }
