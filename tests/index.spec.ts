@@ -19,7 +19,11 @@ describe('the main test', () => {
       west: '云故',
     });
     expect(bf.round()).toBeFalsy();
+    console.log(bf.toRender.west.health);
+    console.log(bf.toRender.east.health);
     bf.round();
+    console.log(bf.toRender.west.health);
+    console.log(bf.toRender.east.health);
     console.log(bf.eventRegistry.messages);
   });
 });

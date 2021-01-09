@@ -158,7 +158,7 @@ export default class BattleField {
       );
       attackerPlayer.basicSkills.angrySkill.increaseAngryRate(increasedAngryRate);
     }
-    underAttackPlayer.health.value -= attackAmount;
+    underAttackPlayer.health.value = underAttackPlayer.health.internalValue - attackAmount;
     if (this.checkDeath()) return true; // Death Check.
     // AFTER (UNDER)ATTACK
     attackerPlayer.changeStatus(PlayerStatus.afterAttack);
