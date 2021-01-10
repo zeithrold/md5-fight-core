@@ -14,6 +14,6 @@ export default class AttackEvent implements Event {
   }
 
   message(player: string) {
-    return `${player}发动了一个${this.data.amount}的攻击！`;
+    return `${player}发动了一个${this.data.amount.toFixed(2)}的攻击！`;
   }
 }

@@ -42,7 +42,7 @@ describe('EventRegistry class test', () => {
     const testEvent = new TestEvent();
     eventRegistry.registerEvent(testEvent, 'test-player');
     eventRegistry.pushEvent();
-    expect(eventRegistry.messages.size).toBe(1);
+    expect(eventRegistry.messages.length).toBe(1);
     expect(testEvent.message).toBeCalled();
     const expectedMessageBlock = [{
       message: 'Test Message, playerId: test-player',

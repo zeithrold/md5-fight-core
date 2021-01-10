@@ -7,6 +7,7 @@ import { LowAttackAngryEvent } from '../events/internal';
 import EventRegistry from '../events/EventRegistry';
 import BothDeathEvent from '../events/internal/BothDeathEvent';
 import { DeathEvent } from '../events';
+import RenderedPlayerInfo from './RenderedPlayerInfo';
 
 /**
  * The API platform of the Effect.
@@ -18,14 +19,13 @@ export default class BattleField {
 
   fasterSide: 'east' | 'west';
 
-  readonly eventRegistry: EventRegistry;
+  readonly eventRegistry = new EventRegistry();
 
   constructor(
     players: { west: string; east: string },
     env: 'test' | 'production' | 'dev' = 'production',
   ) {
     this.env = env;
-    this.eventRegistry = new EventRegistry();
     this.players = {
       west: new Player(players.west, this),
       east: new Player(players.east, this),
@@ -156,7 +156,7 @@ export default class BattleField {
       );
       attackerPlayer.basicSkills.angrySkill.increaseAngryRate(increasedAngryRate);
     }
-    underAttackPlayer.health.value -= attackAmount;
+    underAttackPlayer.health.value = underAttackPlayer.health.internalValue - attackAmount;
     if (this.checkDeath()) return true; // Death Check.
     // AFTER (UNDER)ATTACK
     attackerPlayer.changeStatus(PlayerStatus.afterAttack);
@@ -172,5 +172,13 @@ export default class BattleField {
   checkDeath() {
     return this.players.west.health.internalValue === 0
       || this.players.east.health.internalValue === 0;
+  }
+
+  get toRender() {
+    return {
+      west: new RenderedPlayerInfo(this.players.west),
+      east: new RenderedPlayerInfo(this.players.east),
+      messages: this.eventRegistry.messages,
+    };
   }
 }

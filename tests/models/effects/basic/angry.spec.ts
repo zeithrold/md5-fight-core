@@ -39,10 +39,10 @@ describe('angry skill test', () => {
     expect(eastPlayerMDModifiedEvent).toBeTruthy();
     expect(eastPlayerPDModifiedEvent).toBeTruthy();
     expect(eastPlayerMDModifiedEvent.event.data.defence).toBe(
-      eastPlayer.defence[PlayerType.magical].internalValue.defence * 0.5,
+      eastPlayer.defence[PlayerType.magical].defaultValue.defence * 0.5,
     );
     expect(eastPlayerPDModifiedEvent.event.data.defence).toBe(
-      eastPlayer.defence[PlayerType.physical].internalValue.defence * 0.5,
+      eastPlayer.defence[PlayerType.physical].defaultValue.defence * 0.5,
     );
   });
 });
