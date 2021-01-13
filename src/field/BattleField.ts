@@ -31,6 +31,17 @@ export default class BattleField {
       east: new Player(players.east, this),
     };
     this.orderBattle();
+    if (this.checkDeath()) {
+      const eastPlayerDead = this.players.east.health.internalValue === 0;
+      const westPlayerDead = this.players.west.health.internalValue === 0;
+      if (westPlayerDead && eastPlayerDead) {
+        this.eventRegistry.registerEvent(new BothDeathEvent(), this.players.west.name);
+      } if (westPlayerDead && (!eastPlayerDead)) {
+        this.eventRegistry.registerEvent(new DeathEvent(), this.players.west.name);
+      } if ((!westPlayerDead) && eastPlayerDead) {
+        this.eventRegistry.registerEvent(new DeathEvent(), this.players.east.name);
+      }
+    }
     this.eventRegistry.pushEvent();
   }
 
@@ -98,18 +109,6 @@ export default class BattleField {
   }
 
   round() {
-    if (this.checkDeath()) {
-      const eastPlayerDead = this.players.east.health.internalValue === 0;
-      const westPlayerDead = this.players.west.health.internalValue === 0;
-      if (westPlayerDead && eastPlayerDead) {
-        this.eventRegistry.registerEvent(new BothDeathEvent(), this.players.west.name);
-      } if (westPlayerDead && (!eastPlayerDead)) {
-        this.eventRegistry.registerEvent(new DeathEvent(), this.players.west.name);
-      } if ((!westPlayerDead) && eastPlayerDead) {
-        this.eventRegistry.registerEvent(new DeathEvent(), this.players.east.name);
-      }
-      return true;
-    }
     const primaryFightHasDeath = this.fight(this.fasterSide);
     this.eventRegistry.pushEvent();
     if (primaryFightHasDeath) return true;
